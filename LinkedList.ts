@@ -9,7 +9,7 @@ export class LinkedListNode<Type> {
 }
 
 export class LinkedList<Type> {
-  head: LinkedListNode<Type> | null = null;
+  private head: LinkedListNode<Type> | null = null;
   length: number = 0;
 
   constructor(nodes?: Type[]) {
@@ -37,18 +37,25 @@ export class LinkedList<Type> {
     return this.length === 0;
   }
 
-  get(index: number): LinkedListNode<Type> | null {
+  private getNode(index: number): LinkedListNode<Type> | null {
     return this.getNext(this.head, index);
   }
 
-  insert(value: Type, position: number = this.length): LinkedListNode<Type> {
+  get(index: number): Type | null {
+    const result = this.getNext(this.head, index);
+    if (result) return result.value;
+
+    return null;
+  }
+
+  insert(value: Type, position: number = this.length): Type {
     if (position > this.length || position < 0) {
       throw new Error(`Please choose position from 0 to ${this.length}`);
     }
 
     const newNode = new LinkedListNode<Type>(value);
-    const currentNode = this.get(position);
-    const previousNode = this.get(position - 1);
+    const currentNode = this.getNode(position);
+    const previousNode = this.getNode(position - 1);
 
     if (!previousNode) {
       newNode.next = this.head;
@@ -65,16 +72,16 @@ export class LinkedList<Type> {
     }
 
     this.length += 1;
-    return newNode;
+    return newNode.value;
   }
 
-  remove(position: number): LinkedListNode<Type> | null {
+  remove(position: number): Type | null {
     if (position > this.length - 1 || position < 0) {
       throw new Error(`Please choose position from 0 to ${this.length - 1}`);
     }
 
-    const nodeToDelete = this.get(position);
-    const previousNode = this.get(position - 1);
+    const nodeToDelete = this.getNode(position);
+    const previousNode = this.getNode(position - 1);
 
     if (!nodeToDelete) {
       return null;
@@ -82,25 +89,25 @@ export class LinkedList<Type> {
 
     if (!previousNode) {
       this.head = nodeToDelete.next;
-      return nodeToDelete;
+      return nodeToDelete.value;
     }
 
     previousNode.next = nodeToDelete.next;
     this.length -= 1;
-    return nodeToDelete;
+    return nodeToDelete.value;
   }
 
-  search(value: Type): { index: number; value: LinkedListNode<Type> } | null {
+  search(value: Type): { index: number; value: Type } | null {
     let counter = 0;
     while (counter < this.length) {
-      const currentNode = this.get(counter);
+      const currentNode = this.getNode(counter);
 
       if (!currentNode) {
         return null;
       }
 
       if (JSON.stringify(currentNode.value) === JSON.stringify(value)) {
-        return { index: counter, value: currentNode };
+        return { index: counter, value: currentNode.value };
       }
 
       counter += 1;

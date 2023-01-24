@@ -2,7 +2,7 @@ import { LinkedListNode } from "./LinkedList";
 
 export class Stack<Type> {
   length: number = 0;
-  head: LinkedListNode<Type> | null = null;
+  private head: LinkedListNode<Type> | null = null;
 
   constructor(nodes?: Type[]) {
     if (nodes) {
@@ -10,29 +10,29 @@ export class Stack<Type> {
     }
   }
 
-  push(node: Type): LinkedListNode<Type> {
+  push(node: Type): Type {
     const newNode = new LinkedListNode(node);
     newNode.next = this.head;
     this.head = newNode;
     this.length += 1;
-    return newNode;
+    return newNode.value;
   }
 
-  pop(): LinkedListNode<Type> | null {
+  pop(): Type | null {
     if (this.head) {
       const node = this.head;
       this.head = this.head.next;
       this.length -= 1;
 
-      return node;
+      return node.value;
     }
 
     return null;
   }
 
-  peek(): LinkedListNode<Type> | null {
+  peek(): Type | null {
     if (this.head) {
-      return this.head;
+      return this.head.value;
     }
 
     return this.head;
