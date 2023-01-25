@@ -33,7 +33,7 @@ export class Queue<Type> {
     return enqueuedNode.value;
   }
 
-  dequeu(): Type | null {
+  dequeue(): Type | null {
     if (this.head) {
       const dequeuedNode = this.head;
 

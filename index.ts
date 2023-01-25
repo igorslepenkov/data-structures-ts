@@ -1,3 +1,4 @@
+import { Dequeue } from "./Deque";
 import { DoubleLinkedList } from "./DoubleLinkedList";
 import { LinkedList, LinkedListNode } from "./LinkedList";
 import { Queue, QueuePosition } from "./Queue";
@@ -56,3 +57,11 @@ interface Point {
 // console.log(dll.length);
 // dll.insert({ x: 70, y: 70 }, 5);
 // console.log(dll.get(6));
+
+// const deque = new Dequeue([{ x: 10, y: 10 }]);
+
+// deque.dequeue(QueuePosition.Head);
+// console.log(deque.peek(QueuePosition.Head));
+// console.log(deque.peek(QueuePosition.Tail));
+// deque.enqueu({ x: 20, y: 20 }, QueuePosition.Tail);
+// console.log(deque.peek(QueuePosition.Tail));
