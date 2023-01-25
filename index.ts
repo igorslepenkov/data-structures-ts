@@ -1,3 +1,4 @@
+import { DoubleLinkedList } from "./DoubleLinkedList";
 import { LinkedList, LinkedListNode } from "./LinkedList";
 import { Queue, QueuePosition } from "./Queue";
 import { Stack } from "./Stack";
@@ -11,9 +12,14 @@ interface Point {
 //   { x: 10, y: 10 },
 //   { x: 20, y: 20 },
 //   { x: 30, y: 30 },
+//   { x: 40, y: 40 },
+//   { x: 50, y: 50 },
+//   { x: 60, y: 60 },
 // ]);
 
-// console.log(ll.search({ x: 20, y: 20 }));
+// ll.insert({ x: 70, y: 70 }, 0);
+// ll.remove(0);
+// console.log(ll.get(0));
 
 // const stack = new Stack<Point>([
 //   { x: 10, y: 10 },
@@ -26,15 +32,27 @@ interface Point {
 
 // console.log(stack.peek());
 
-const queu = new Queue<Point>([
-  { x: 10, y: 10 },
-  { x: 20, y: 20 },
-  { x: 30, y: 30 },
-]);
+// const queu = new Queue<Point>([
+//   { x: 10, y: 10 },
+//   { x: 20, y: 20 },
+//   { x: 30, y: 30 },
+// ]);
 
-queu.enqueu({ x: 500, y: 600 });
-console.log(queu.dequeu());
-console.log(queu.dequeu());
-console.log(queu.dequeu());
-console.log(queu.dequeu());
-console.log(queu.peek(QueuePosition.Tail));
+// queu.enqueu({ x: 500, y: 600 });
+// console.log(queu.dequeu());
+// console.log(queu.dequeu());
+// console.log(queu.dequeu());
+// console.log(queu.dequeu());
+// console.log(queu.peek(QueuePosition.Tail));
+
+// const dll = new DoubleLinkedList<Point>([
+//   { x: 10, y: 10 },
+//   { x: 20, y: 20 },
+//   { x: 30, y: 30 },
+//   { x: 40, y: 40 },
+//   { x: 50, y: 50 },
+//   { x: 60, y: 60 },
+// ]);
+// console.log(dll.length);
+// dll.insert({ x: 70, y: 70 }, 5);
+// console.log(dll.get(6));

@@ -1,15 +1,21 @@
-export class LinkedListNode<Type> {
+export class DoubleLinkedListNode<Type> {
   value: Type;
-  next: LinkedListNode<Type> | null;
+  next: DoubleLinkedListNode<Type> | null;
+  previous: DoubleLinkedListNode<Type> | null;
 
-  constructor(value: Type, next: LinkedListNode<Type> | null = null) {
+  constructor(
+    value: Type,
+    next: DoubleLinkedListNode<Type> | null = null,
+    previous: DoubleLinkedListNode<Type> | null = null
+  ) {
     this.value = value;
     this.next = next;
+    this.previous = previous;
   }
 }
 
-export class LinkedList<Type> {
-  private head: LinkedListNode<Type> | null = null;
+export class DoubleLinkedList<Type> {
+  private head: DoubleLinkedListNode<Type> | null = null;
   length: number = 0;
 
   constructor(nodes?: Type[]) {
@@ -19,9 +25,9 @@ export class LinkedList<Type> {
   }
 
   private getNext(
-    node: LinkedListNode<Type> | null,
+    node: DoubleLinkedListNode<Type> | null,
     counter: number
-  ): LinkedListNode<Type> | null {
+  ): DoubleLinkedListNode<Type> | null {
     if (counter < 0) {
       return null;
     }
@@ -33,7 +39,7 @@ export class LinkedList<Type> {
     return this.getNext(node.next, counter - 1);
   }
 
-  private getNode(index: number): LinkedListNode<Type> | null {
+  private getNode(index: number): DoubleLinkedListNode<Type> | null {
     return this.getNext(this.head, index);
   }
 
@@ -52,14 +58,21 @@ export class LinkedList<Type> {
     if (position > this.length || position < 0) {
       throw new Error(`Please choose position from 0 to ${this.length}`);
     }
-
-    const newNode = new LinkedListNode<Type>(value);
+    const newNode = new DoubleLinkedListNode<Type>(value);
 
     const previousNode = this.getNode(position - 1);
 
     if (!previousNode) {
-      newNode.next = this.head;
-      this.head = newNode;
+      if (this.head) {
+        newNode.next = this.head;
+        newNode.next.previous = newNode;
+        this.head = newNode;
+      }
+
+      if (!this.head) {
+        newNode.next = this.head;
+        this.head = newNode;
+      }
     }
 
     if (previousNode) {
@@ -67,11 +80,15 @@ export class LinkedList<Type> {
 
       if (!currentNode) {
         previousNode.next = newNode;
+        newNode.previous = previousNode;
       }
 
       if (currentNode) {
         newNode.next = currentNode;
+        currentNode.previous = newNode;
+
         previousNode.next = newNode;
+        newNode.previous = previousNode;
       }
     }
 
@@ -84,33 +101,30 @@ export class LinkedList<Type> {
       throw new Error(`Please choose position from 0 to ${this.length - 1}`);
     }
 
-    const previousNode = this.getNode(position - 1);
+    const nodeToDelete = this.getNode(position);
+
+    if (!nodeToDelete) {
+      return null;
+    }
+
+    const previousNode = nodeToDelete.previous;
+    const nextNode = nodeToDelete.next;
 
     if (!previousNode) {
-      const nodeToDelete = this.head;
-
-      if (!nodeToDelete) {
-        return null;
-      }
-
-      this.length -= 1;
-      this.head = nodeToDelete.next;
-      return nodeToDelete.value;
+      this.head = nextNode;
     }
 
-    if (previousNode) {
-      const nodeToDelete = previousNode.next;
-
-      if (!nodeToDelete) {
-        return null;
-      }
-
-      this.length -= 1;
-      previousNode.next = nodeToDelete.next;
-      return nodeToDelete.value;
+    if (previousNode && nextNode) {
+      previousNode.next = nextNode;
+      nextNode.previous = previousNode;
     }
 
-    return null;
+    if (previousNode && !nextNode) {
+      previousNode.next = nextNode;
+    }
+
+    this.length -= 1;
+    return nodeToDelete.value;
   }
 
   search(value: Type): { index: number; value: Type } | null {
