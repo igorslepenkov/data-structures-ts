@@ -29,7 +29,6 @@ export class Queue<Type> {
 
     this.tail.next = enqueuedNode;
     this.tail = enqueuedNode;
-    this.length += 1;
 
     return enqueuedNode.value;
   }

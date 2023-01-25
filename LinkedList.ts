@@ -33,12 +33,12 @@ export class LinkedList<Type> {
     return this.getNext(node.next, counter - 1);
   }
 
-  isEmpty() {
-    return this.length === 0;
-  }
-
   private getNode(index: number): LinkedListNode<Type> | null {
     return this.getNext(this.head, index);
+  }
+
+  isEmpty() {
+    return this.length === 0;
   }
 
   get(index: number): Type | null {
